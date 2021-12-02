@@ -10,7 +10,7 @@ client.on("ready", () => console.log("i am ready master"));
 
 client.on("messageCreate", message => {
     // console.log(message.content);
-    if(message.content === "Hello".toLocaleLowerCase()) message.reply("Hi there, what can i do for you?");
+    if(message.content.toLowerCase() === "hello") message.reply("Hi there, what can i do for you?");
 });
 
 

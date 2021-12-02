@@ -1,9 +1,4 @@
 
-# deployed package files #
-
-*.DEPLOYED
-
-
 # log in token #
 
 /src/data
@@ -25,3 +20,7 @@ jboss/server/minimal/log/*.log
 jboss/server/minimal/tmp/**/*
 jboss/server/minimal/data/**/*
 jboss/server/minimal/work/**/*
+
+# deployed package files #
+
+*.DEPLOYED
