@@ -12,25 +12,30 @@ client.on("ready", () => console.log("i am ready master"));
 
 // let today = new Date();
 // let date = `${today.getDay()} ${today.getMonth()} ${today.getFullYear()}`;
-// const file = "C:\Users\semra\Documents\Projects to learn\First Discord Bot\DiscordBotProject\src";
+// const file = "";
 // const dateCreated = fs.statSync(file).birthtime;
 client.on("messageCreate", message => {
 
     // no prefix!
     if(!message.content.startsWith(config.prefix)) return;
-
+    let returnMessage = "";
     // advanced questions!
-    const repeatMe = message.content.split(" ");
+    if(message.content.startsWith("!say")){
+        const arrayOfCommand = message.content.split(" ");
+        const restOfSayMessage = arrayOfCommand.slice(1);
+        returnMessage += restOfSayMessage.join(" ");
+    }
+    
     switch(message.content.toLowerCase()){
-        case "say":
-            message.reply(repeatMe.splice(1));
-            break;
-        case "hello":
-            message.reply("Hi there, what can i do for you?");
-            break;
-        case "how are you?":
-            message.reply("I'm very good, thank you. and you?");
-            break;
+        case `!say ${returnMessage}`:
+            return message.reply(returnMessage);
+            
+        case "!hello":
+            return message.reply("Hi there, what can i do for you?");
+            
+        case "!how are you?":
+            return message.reply("I'm very good, thank you. and you?");
+            
         // case `!When were you created?`:
         //     return message.reply(`I am created ${dateCreated}`);
         default:
