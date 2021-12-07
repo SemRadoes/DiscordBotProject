@@ -10,10 +10,8 @@ const client = new discord.Client({ intents });
 
 client.on("ready", () => console.log("i am ready master"));
 
-// let today = new Date();
-// let date = `${today.getDay()} ${today.getMonth()} ${today.getFullYear()}`;
-// const file = "";
-// const dateCreated = fs.statSync(file).birthtime;
+const file = "./src/bot.js";
+const dateCreated = fs.statSync(file).birthtime;
 client.on("messageCreate", message => {
 
     // no prefix!
@@ -36,8 +34,8 @@ client.on("messageCreate", message => {
         case "!how are you?":
             return message.reply("I'm very good, thank you. and you?");
             
-        // case `!When were you created?`:
-        //     return message.reply(`I am created ${dateCreated}`);
+        case "!when were you created?":
+            return message.reply(`I was created ${dateCreated}`);
         default:
             return;
     }
