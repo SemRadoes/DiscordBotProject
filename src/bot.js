@@ -3,7 +3,7 @@ const discord = require("discord.js");
 const config = require("./data/config.json");
 
 const fs = require("fs");
-const { fileURLToPath } = require("url");
+const { isArgumentsObject } = require("util/types");
 
 const intents = new discord.Intents("32767");
 
@@ -11,14 +11,11 @@ const client = new discord.Client({ intents });
 
 client.commands = new discord.Collection();
 
-const commandFiles = fs
-	.readdirSync("./commands/")
-	.filter((file) => file.endsWith(".js"));
+const commandFiles = fs.readdirSync("./commands/").filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-
-	client.command.set(command.name, command);
+	const command = require(`../commands/${file}`);
+	client.commands.set(command.name, command);
 }
 
 client.on("ready", () => {
@@ -28,9 +25,9 @@ const file = "./src/bot.js";
 const dateCreated = fs.statSync(file).birthtime;
 client.on("messageCreate", (message) => {
 	// no prefix!
-	if (!message.content.startsWith(config.prefix) || message.author.bot)
+	if (!message.content.startsWith(config.prefix) || message.author.bot) {
 		return;
-
+	}
 	// advanced questions!
 	let returnMessage = "";
 	if (message.content.startsWith("!say")) {
@@ -41,21 +38,17 @@ client.on("messageCreate", (message) => {
 
 	switch (message.content.toLowerCase()) {
 		case `!say ${returnMessage}`:
-			client.commands
-				.get("repeatMessage")
-				.execute(message, returnMessage);
-		// return message.reply(returnMessage);
+			return client.commands.get("say").execute(message, returnMessage);
 
 		case "!hello":
-			client.commands.get("hello").execute(message, args);
-		// return message.reply("Hi there, what can i do for you?");
+			return client.commands.get("hello").execute(message);
+
 		case "!how are you?":
-			client.command.get("How are you").execute(message, args);
-		// return message.reply("I'm very good, thank you. and you?");
+			return client.commands.get("how are you?").execute(message);
 
 		case "!when were you created?":
-			client.command.get("dateCreated").execute(message, dateCreated);
-		// return message.reply(`I was created ${dateCreated}`);
+			return client.commands.get("file creation date").execute(message, dateCreated);
+
 		default:
 			return;
 	}
