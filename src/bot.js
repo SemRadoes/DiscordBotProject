@@ -28,14 +28,15 @@ client.on("messageCreate", (message) => {
 	if (!message.content.startsWith(config.prefix) || message.author.bot) {
 		return;
 	}
-	// advanced questions!
+	
 	let returnMessage = "";
 	if (message.content.startsWith("!say")) {
 		const arrayOfCommand = message.content.split(" ");
 		const restOfSayMessage = arrayOfCommand.slice(1);
 		returnMessage += restOfSayMessage.join(" ");
 	}
-
+	// advanced questions!
+	
 	switch (message.content.toLowerCase()) {
 		case `!say ${returnMessage}`:
 			return client.commands.get("say").execute(message, returnMessage);
@@ -48,7 +49,10 @@ client.on("messageCreate", (message) => {
 
 		case "!when were you created?":
 			return client.commands.get("file creation date").execute(message, dateCreated);
-
+		
+		case "!play":
+			return client.commands.get("play").execute(message);
+		
 		default:
 			return;
 	}
